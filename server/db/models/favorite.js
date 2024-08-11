@@ -1,4 +1,4 @@
-'use strict';
+
 const {
   Model
 } = require('sequelize');
@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
   Favorite.init({
     user_id: DataTypes.INTEGER,
     card_id: DataTypes.INTEGER,
-    like: DataTypes.INTEGER,
+    
   }, {
     sequelize,
     modelName: 'Favorite',
