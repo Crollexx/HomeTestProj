@@ -1,6 +1,8 @@
 const router = require('express').Router()
 const bcrypt = require('bcrypt')
 const { User } = require('../db/models')
+const generateTokens = require('../utils/generateTokens')
+const jwtConfig = require('../config/jwtConfig')
 
 router.post('/registration', async (req, res) => {
     try {
@@ -8,16 +10,21 @@ router.post('/registration', async (req, res) => {
         if (name.trim() === '' || email.trim() === '' || password.trim() === '') {
             return res.status(400).json({ message: "Есть пустые поля" })
         }
-        console.log(req.body);
-        
 
         const userInDb = await User.findOne({ where: { email } })
 
         if (userInDb) {
             return res.status(400).json({ message: "Такой пользователь уже зарегистрирован" })
         } else {
-            const regUser = await User.create({name, email,  password: await bcrypt.hash(password, 10), role})
+            const regUser = await User.create({ name, email, password: await bcrypt.hash(password, 10), role })
             res.json(regUser)
+            const { refreshToken, accessToken } = generateTokens
+            res
+                .status(201)
+                .cookie(jwtConfig.refresh.type, refreshToken, { httpOnly: true, maxAge: jwtConfig.refresh.expiresIn })
+                .json({ accessToken, user })
+            console.log(cookie());
+
         }
 
     } catch (error) {
@@ -32,19 +39,30 @@ router.post('/authorization', async (req, res) => {
         if (email.trim() === '' || password.trim() === '') {
             res.status(400).json({ message: "Заполните все поля" })
         }
-        const isMatch = await bcrypt.compare(password, 10)
-        if(isMatch === password){
         const user = await User.findOne({ where: { email } })
-        res.json(user)
-        }
+        const isMatch = await bcrypt.compare(password, user.password)
+        console.log(user);
+        console.log(isMatch);
         
+        
+        if (isMatch && user) {
+            const { refreshToken, accessToken } = generateTokens
+                .status(201)
+                .cookie(jwtConfig.refresh.type, refreshToken, { httpOnly: true, maxAge: jwtConfig.refresh.expiresIn })
+                .json({ accessToken, user })
+        } else{
+            return res.status(400).json({ message: 'In correct!' })
+        }
+
     } catch (error) {
         res.status(500).json({ error: error.message })
     }
 })
 
 router.delete('/logout', async (req, res) => {
-
+    res
+        .clearCookie(jwtConfig.refresh.type)
+        .json({ accessToken: "" })
 })
 
 
