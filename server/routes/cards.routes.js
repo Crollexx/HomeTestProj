@@ -33,13 +33,22 @@ router.route('/:id')
             const { title, description, price, image, category_id, user_id } = req.body
             // const {id} = req.params
             console.log(req.params);
-            const updateCard = await Card.update(title, description, price, image, category_id, user_id, {where:{id}})
+            const updateCard = await Card.update(title, description, price, image, category_id, user_id, { where: { id } })
             res.json(updateCard)
         } catch (error) {
             res.status(500).json({ error: error.message })
         }
     })
-    .delete()
+    .delete(async (req, res) => {
+        try {
+            const { id } = req.params
+            const delCard = await Card.destroy({ where: { id } })
+            res.json(delCard)
+
+        } catch (error) {
+            res.status(500).json({ error: error.message })
+        }
+    })
 
 
 module.exports = router

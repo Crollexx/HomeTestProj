@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const bcrypt = require('bcrypt')
 const { User } = require('../db/models')
 
 router.post('/registration', async (req, res) => {
@@ -15,7 +16,7 @@ router.post('/registration', async (req, res) => {
         if (userInDb) {
             return res.status(400).json({ message: "Такой пользователь уже зарегистрирован" })
         } else {
-            const regUser = await User.create({name, email, password, role})
+            const regUser = await User.create({name, email,  password: await bcrypt.hash(password, 10), role})
             res.json(regUser)
         }
 
@@ -31,8 +32,12 @@ router.post('/authorization', async (req, res) => {
         if (email.trim() === '' || password.trim() === '') {
             res.status(400).json({ message: "Заполните все поля" })
         }
+        const isMatch = await bcrypt.compare(password, 10)
+        if(isMatch === password){
         const user = await User.findOne({ where: { email } })
         res.json(user)
+        }
+        
     } catch (error) {
         res.status(500).json({ error: error.message })
     }
