@@ -23,7 +23,7 @@ router.post('/registration', async (req, res) => {
                 .status(201)
                 .cookie(jwtConfig.refresh.type, refreshToken, { httpOnly: true, maxAge: jwtConfig.refresh.expiresIn })
                 .json({ accessToken, user })
-            console.log(cookie());
+           
 
         }
 
