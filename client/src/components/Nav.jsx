@@ -4,6 +4,10 @@ import { NavLink } from "react-router-dom";
 function Nav() {
   return (
     <nav>
+
+
+
+
       <NavLink to="/">Главная страница </NavLink>
       <NavLink to="/registration"> Регистрация </NavLink>
       <NavLink to="/authorization"> Авторизация</NavLink>

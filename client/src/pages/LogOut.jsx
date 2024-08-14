@@ -1,9 +1,28 @@
-import React from 'react'
+import React from "react";
+import apiAxiosInstance, { setAccessToken } from "../service/axiosInstance";
+import { useNavigate } from "react-router-dom";
 
-function LogOut() {
-  return (
-    <div>LogOut</div>
-  )
+
+function LogOut({user, setUser}) {
+  const navigate = useNavigate();
+
+  const logOutUser = () => {
+    apiAxiosInstance
+      .delete("/logout")
+      .then(({ data }) => {
+        setAccessToken(data.accessToken);
+        navigate("/authorization");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  return <>
+  
+  <button onClick={logOutUser}> Выйти</button>
+  
+  </>;
 }
 
-export default LogOut
+export default LogOut;
