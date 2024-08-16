@@ -1,18 +1,22 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-function Nav() {
+function Nav({ user }) {
   return (
     <nav>
-
-
-
-
       <NavLink to="/">Главная страница </NavLink>
-      <NavLink to="/registration"> Регистрация </NavLink>
-      <NavLink to="/authorization"> Авторизация</NavLink>
-      <NavLink to="logout">Выйти</NavLink>
 
+      {user ? (
+        <>
+          <NavLink to="logout">Выйти</NavLink>
+          <span>{user.name}</span>
+        </>
+      ) : (
+        <>
+          <NavLink to="/registration"> Регистрация </NavLink>
+          <NavLink to="/authorization"> Авторизация</NavLink>
+        </>
+      )}
     </nav>
   );
 }

@@ -9,29 +9,34 @@ import apiAxiosInstance, { setAccessToken } from "./service/axiosInstance";
 
 function App() {
   const [user, setUser] = useState(null);
+  const [cards, setCards] = useState([])
+
+
 
   useEffect(() => {
-    apiAxiosInstance.get("/token/refresh")
-    .then(({ data }) => {
+    apiAxiosInstance.get("/token/refresh").then(({ data }) => {
       setAccessToken(data.accessToken);
-      console.log(data);
-      
       setUser(data.user);
     });
   }, []);
 
   return (
     <BrowserRouter>
-      <Nav />
+      <Nav user={user} />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home user={user} cards={cards} setCards={setCards} />} />
         <Route
           path="/Registration"
-          element={<Registration />}
-          setUser={setUser}
+          element={<Registration setUser={setUser} />}
         />
-        <Route path="/Authorization" element={<Authorization />} setUser={setUser} />
-        <Route path="/Logout" element={<LogOut />} user={user} setUser={setUser} />
+        <Route
+          path="/Authorization"
+          element={<Authorization setUser={setUser} />}
+        />
+        <Route
+          path="/Logout"
+          element={<LogOut user={user} setUser={setUser} />}
+        />
       </Routes>
     </BrowserRouter>
   );
