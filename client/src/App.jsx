@@ -6,6 +6,8 @@ import Home from "./pages/Home";
 import LogOut from "./pages/LogOut";
 import { useEffect, useState } from "react";
 import apiAxiosInstance, { setAccessToken } from "./service/axiosInstance";
+import PersonalAccount from "./pages/PersonalAccount";
+import Favorite from "./pages/Favorite";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -32,6 +34,14 @@ function App() {
         <Route
           path="/Authorization"
           element={<Authorization setUser={setUser} />}
+        />
+        <Route
+          path="/PersonalAccount"
+          element={<PersonalAccount setUser={setUser} />}
+        />
+        <Route
+          path="/Favorite"
+          element={<Favorite setUser={setUser} />}
         />
         <Route
           path="/Logout"

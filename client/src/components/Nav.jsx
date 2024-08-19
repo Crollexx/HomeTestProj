@@ -8,8 +8,10 @@ function Nav({ user }) {
 
       {user ? (
         <>
-          <NavLink to="logout">Выйти</NavLink>
-          <span>{user.name}</span>
+         <NavLink to="/personalAccount">Личный кабинет</NavLink>
+         <NavLink to="/favorite">Избранное</NavLink>
+         <NavLink to="/logout">Выйти</NavLink>
+         <span>{user.name}</span>
         </>
       ) : (
         <>

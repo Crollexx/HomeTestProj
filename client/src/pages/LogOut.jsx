@@ -11,7 +11,7 @@ function LogOut({user, setUser}) {
       .delete("/logout")
       .then(({ data }) => {
         setAccessToken(data.accessToken);
-        navigate("/authorization");
+        navigate("/");
       })
       .catch((error) => {
         console.log(error);
