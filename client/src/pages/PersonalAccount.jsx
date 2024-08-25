@@ -18,7 +18,6 @@ function PersonalAccount({ user, setUser, cards, setCards }) {
   const loadCategory = async () => {
     const { data } = await apiAxiosInstance.get("/category");
       
-    
       setCategory(data);
       console.log(data);  
       
@@ -27,6 +26,8 @@ function PersonalAccount({ user, setUser, cards, setCards }) {
   const createCard = async (e) => {
     e.preventDefault();
     const { data } = await apiAxiosInstance.post("/card", { ...form, user_id: user.id} );
+    console.log(data);
+    
     if (data.message === "success") {
       setCards((prev) => [...prev, data.card]);
             

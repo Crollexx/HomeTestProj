@@ -1,8 +1,21 @@
 const router = require('express').Router()
 const { Card } = require('../db/models')
+const verifyAccessToken = require('../middleware/verifyAccessToken')
+
+
+
+router.get('/user/:id', verifyAccessToken, async (req, res) => {
+    const { id } = req.params
+    try {
+        const cardUser = await Card.findAll({ where: { user_id: id } })
+        res.json(cardUser)
+    } catch (error) {
+        res.status(500).json({ error: error.message })
+    }
+})
 
 router.route('/')
-    .get(async (req, res) => {
+.get(async (req, res) => {
         try {
             const cardsAll = await Card.findAll()
             console.log({ cardsAll });
