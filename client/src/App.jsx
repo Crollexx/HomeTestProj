@@ -11,7 +11,7 @@ import Favorite from "./pages/Favorite";
 
 function App() {
   const [user, setUser] = useState(null);
-  const [cards, setCards] = useState([])
+  
 
 
 
@@ -26,7 +26,7 @@ function App() {
     <BrowserRouter>
       <Nav user={user} />
       <Routes>
-        <Route path="/" element={<Home user={user} cards={cards} setCards={setCards} />} />
+        <Route path="/" element={<Home user={user} setUser={setUser}  />} />
         <Route
           path="/Registration"
           element={<Registration setUser={setUser} />}
@@ -37,11 +37,11 @@ function App() {
         />
         <Route
           path="/PersonalAccount"
-          element={<PersonalAccount setUser={setUser} />}
+          element={<PersonalAccount setUser={setUser}  user={user} />}
         />
         <Route
           path="/Favorite"
-          element={<Favorite setUser={setUser} />}
+          element={<Favorite setUser={setUser} user={user}  />}
         />
         <Route
           path="/Logout"
