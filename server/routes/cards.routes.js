@@ -4,7 +4,7 @@ const verifyAccessToken = require('../middleware/verifyAccessToken')
 
 
 
-router.get('/user/:id', verifyAccessToken, async (req, res) => {
+router.get('/user/:id',  async (req, res) => {
     const { id } = req.params
     try {
         const cardUser = await Card.findAll({ where: { user_id: id } })

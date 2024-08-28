@@ -1,28 +1,31 @@
 import React, { useEffect, useState } from "react";
 import apiAxiosInstance from "../service/axiosInstance";
 
-function Home({ user }) {
-  const [cards, setCards] = useState([]);
 
-  const allCards = () => {
-    apiAxiosInstance
-      .get("/card")
-      .then(({ data }) => setCards(data))
-      .catch((err) => console.log(err));
-  };
-
-  useEffect(() => {
-    allCards();
+function Home() {
+const [card, setCard] = useState([])
+  
+  const loadCards = async () => {
+    
+      const { data } = await apiAxiosInstance.get('/card');
+      console.log(data);
+        setCard(data);
+    
+  }
+  
+   useEffect(() => {
+    loadCards();
   }, []);
+ 
 
   return (
     <>
-      {cards.map((el) => (
-        <div key={el.id}>
-          <div>{el.title}</div>
-          <div>{el.description}</div>
-          <div>{el.price}</div>
-          <img src={el.image} />
+   {card.map((item) => (
+        <div key={item.id}>
+          <div>{item.title}</div>
+          <div>{item.description}</div>
+          <div>{item.price}</div>
+          <img src={item.image} />
         </div>
       ))}
     </>

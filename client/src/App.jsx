@@ -11,6 +11,8 @@ import Favorite from "./pages/Favorite";
 
 function App() {
   const [user, setUser] = useState(null);
+  const [cards, setCards] = useState([]);
+  
   
 
 
@@ -19,14 +21,15 @@ function App() {
     apiAxiosInstance.get("/token/refresh").then(({ data }) => {
       setAccessToken(data.accessToken);
       setUser(data.user);
-    });
+    })
+    
   }, []);
 
   return (
     <BrowserRouter>
       <Nav user={user} />
       <Routes>
-        <Route path="/" element={<Home user={user} setUser={setUser}  />} />
+        <Route path="/" element={<Home />} />
         <Route
           path="/Registration"
           element={<Registration setUser={setUser} />}
@@ -37,7 +40,7 @@ function App() {
         />
         <Route
           path="/PersonalAccount"
-          element={<PersonalAccount setUser={setUser}  user={user} />}
+          element={<PersonalAccount user={user} setUser={setUser} cards={cards} setCards={setCards} />}
         />
         <Route
           path="/Favorite"
